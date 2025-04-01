@@ -592,6 +592,35 @@ export interface ApiManagerManager extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNavNav extends Struct.SingleTypeSchema {
+  collectionName: 'navs';
+  info: {
+    description: '';
+    displayName: 'nav';
+    pluralName: 'navs';
+    singularName: 'nav';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::nav.nav'> &
+      Schema.Attribute.Private;
+    NavigationItem: Schema.Attribute.Component<
+      'navigation.navigation-item',
+      true
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiScorecardScorecard extends Struct.CollectionTypeSchema {
   collectionName: 'scorecards';
   info: {
@@ -1188,6 +1217,7 @@ declare module '@strapi/strapi' {
       'api::location.location': ApiLocationLocation;
       'api::logo.logo': ApiLogoLogo;
       'api::manager.manager': ApiManagerManager;
+      'api::nav.nav': ApiNavNav;
       'api::scorecard.scorecard': ApiScorecardScorecard;
       'api::supervisor.supervisor': ApiSupervisorSupervisor;
       'plugin::content-releases.release': PluginContentReleasesRelease;

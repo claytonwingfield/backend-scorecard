@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_navigation_navigation_items",
+  "info": {
+    "displayName": "NavigationItem",
+    "icon": "link",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "path": {
+      "type": "string",
+      "required": false
+    },
+    "isDropdown": {
+      "type": "boolean"
+    },
+    "isDominicanRepublic": {
+      "type": "boolean",
+      "required": false
+    },
+    "headerName": {
+      "type": "string"
+    },
+    "subPages": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.sub-pages"
+    }
+  }
+}

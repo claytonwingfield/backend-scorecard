@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_navigation_extra_sub_pages",
+  "info": {
+    "displayName": "extraSubPages",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "isDropdown": {
+      "type": "boolean"
+    },
+    "isDominicanRepublic": {
+      "type": "boolean"
+    },
+    "headerName": {
+      "type": "string"
+    }
+  }
+}
