@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "managers",
+  "info": {
+    "singularName": "manager",
+    "pluralName": "managers",
+    "displayName": "manager",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "departments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::department.department",
+      "mappedBy": "managers"
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "Manager of Contact Center Operations",
+        "Manager of Help Desk",
+        "Sr Manager of Customer Engagement",
+        "Manager of Customer Service",
+        "Manager of Resolutions and Training",
+        "Manager of Contact Center Operation"
+      ],
+      "required": true
+    },
+    "supervisors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::supervisor.supervisor",
+      "inversedBy": "managers"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "managers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::manager.manager",
+      "inversedBy": "sr_managers"
+    },
+    "sr_managers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::manager.manager",
+      "mappedBy": "managers"
+    }
+  }
+}

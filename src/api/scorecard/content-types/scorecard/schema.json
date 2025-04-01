@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "scorecards",
+  "info": {
+    "singularName": "scorecard",
+    "pluralName": "scorecards",
+    "displayName": "scorecard"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "aht": {
+      "type": "time"
+    },
+    "quality": {
+      "type": "decimal"
+    },
+    "overall": {
+      "type": "decimal"
+    },
+    "agents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::agent.agent",
+      "mappedBy": "scorecards"
+    }
+  }
+}
