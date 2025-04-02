@@ -16,27 +16,19 @@
       "required": true,
       "unique": true
     },
-    "department": {
-      "type": "enumeration",
-      "enum": [
-        "Help Desk",
-        "Customer Service ",
-        "Electronic Dispatch ",
-        "Written Communication",
-        "Resolution "
-      ],
-      "required": true
-    },
     "role": {
       "type": "enumeration",
       "enum": [
         "Help Desk Technician I",
         "Help Desk Technician II",
+        "Help Desk Team Lead",
         "Contact Center Team Lead",
         "Contact Center Representative",
         "Contact Center Representative II",
         "Resolutions Coordinator",
-        "Resolutions Coordinator II"
+        "Resolutions Coordinator II",
+        "Resolutions Coordinator III",
+        "Resolutions Team Lead"
       ],
       "required": true
     },
@@ -63,6 +55,12 @@
       "relation": "manyToMany",
       "target": "api::scorecard.scorecard",
       "inversedBy": "agents"
+    },
+    "departments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::department.department",
+      "mappedBy": "agents"
     }
   }
 }

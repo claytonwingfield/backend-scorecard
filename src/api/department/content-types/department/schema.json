@@ -31,6 +31,12 @@
       "relation": "manyToMany",
       "target": "api::manager.manager",
       "inversedBy": "departments"
+    },
+    "agents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::agent.agent",
+      "inversedBy": "departments"
     }
   }
 }

@@ -384,16 +384,10 @@ export interface ApiAgentAgent extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    department: Schema.Attribute.Enumeration<
-      [
-        'Help Desk',
-        'Customer Service ',
-        'Electronic Dispatch ',
-        'Written Communication',
-        'Resolution ',
-      ]
-    > &
-      Schema.Attribute.Required;
+    departments: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::department.department'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::agent.agent'> &
       Schema.Attribute.Private;
@@ -409,11 +403,14 @@ export interface ApiAgentAgent extends Struct.CollectionTypeSchema {
       [
         'Help Desk Technician I',
         'Help Desk Technician II',
+        'Help Desk Team Lead',
         'Contact Center Team Lead',
         'Contact Center Representative',
         'Contact Center Representative II',
         'Resolutions Coordinator',
         'Resolutions Coordinator II',
+        'Resolutions Coordinator III',
+        'Resolutions Team Lead',
       ]
     > &
       Schema.Attribute.Required;
@@ -444,6 +441,7 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    agents: Schema.Attribute.Relation<'manyToMany', 'api::agent.agent'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
