@@ -1,5 +1,22 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface BlocksImageSection extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_image_sections';
+  info: {
+    description: '';
+    displayName: 'image section';
+    icon: 'apps';
+  };
+  attributes: {
+    background: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    text: Schema.Attribute.String;
+  };
+}
+
 export interface NavigationExtraSubPages extends Struct.ComponentSchema {
   collectionName: 'components_navigation_extra_sub_pages';
   info: {
@@ -55,6 +72,7 @@ export interface NavigationSubPages extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'blocks.image-section': BlocksImageSection;
       'navigation.extra-sub-pages': NavigationExtraSubPages;
       'navigation.navigation-item': NavigationNavigationItem;
       'navigation.sub-pages': NavigationSubPages;

@@ -1,20 +1,15 @@
 {
-  "kind": "collectionType",
-  "collectionName": "locations",
+  "collectionName": "components_blocks_image_sections",
   "info": {
-    "singularName": "location",
-    "pluralName": "locations",
-    "displayName": "location",
+    "displayName": "image section",
+    "icon": "apps",
     "description": ""
   },
-  "options": {
-    "draftAndPublish": true
-  },
+  "options": {},
   "attributes": {
     "city": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     },
     "background": {
       "type": "media",
@@ -27,9 +22,8 @@
         "audios"
       ]
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "city"
+    "text": {
+      "type": "string"
     }
   }
 }

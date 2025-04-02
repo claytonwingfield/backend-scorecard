@@ -467,36 +467,31 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
-  collectionName: 'locations';
+export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
+  collectionName: 'home_pages';
   info: {
     description: '';
-    displayName: 'location';
-    pluralName: 'locations';
-    singularName: 'location';
+    displayName: 'home page';
+    pluralName: 'home-pages';
+    singularName: 'home-page';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    background: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    city: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    imageSection: Schema.Attribute.Component<'blocks.image-section', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::location.location'
+      'api::home-page.home-page'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'city'>;
+    slug: Schema.Attribute.UID;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1245,7 +1240,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::agent.agent': ApiAgentAgent;
       'api::department.department': ApiDepartmentDepartment;
-      'api::location.location': ApiLocationLocation;
+      'api::home-page.home-page': ApiHomePageHomePage;
       'api::logo.logo': ApiLogoLogo;
       'api::manager.manager': ApiManagerManager;
       'api::nav.nav': ApiNavNav;
