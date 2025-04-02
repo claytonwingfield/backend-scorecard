@@ -17,21 +17,13 @@
     "description": {
       "type": "text"
     },
-    "image": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "buttonText": {
       "type": "string"
     },
     "url": {
+      "type": "string"
+    },
+    "code": {
       "type": "string"
     }
   }
