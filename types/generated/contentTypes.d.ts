@@ -467,6 +467,38 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiForbiddenForbidden extends Struct.SingleTypeSchema {
+  collectionName: 'forbiddens';
+  info: {
+    description: '';
+    displayName: 'Forbidden';
+    pluralName: 'forbiddens';
+    singularName: 'forbidden';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::forbidden.forbidden'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.String;
+  };
+}
+
 export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   collectionName: 'home_pages';
   info: {
@@ -627,7 +659,6 @@ export interface ApiNotFoundPageNotFoundPage extends Struct.SingleTypeSchema {
   };
   attributes: {
     buttonText: Schema.Attribute.String;
-    code: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1240,6 +1271,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::agent.agent': ApiAgentAgent;
       'api::department.department': ApiDepartmentDepartment;
+      'api::forbidden.forbidden': ApiForbiddenForbidden;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::logo.logo': ApiLogoLogo;
       'api::manager.manager': ApiManagerManager;

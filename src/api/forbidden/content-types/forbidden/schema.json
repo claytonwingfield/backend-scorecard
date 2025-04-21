@@ -1,10 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "not_found_pages",
+  "collectionName": "forbiddens",
   "info": {
-    "singularName": "not-found-page",
-    "pluralName": "not-found-pages",
-    "displayName": "not found page",
+    "singularName": "forbidden",
+    "pluralName": "forbiddens",
+    "displayName": "Forbidden",
     "description": ""
   },
   "options": {
