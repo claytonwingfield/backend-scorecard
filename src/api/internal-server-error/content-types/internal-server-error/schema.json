@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "internal_server_errors",
+  "info": {
+    "singularName": "internal-server-error",
+    "pluralName": "internal-server-errors",
+    "displayName": "Internal Server Error"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "buttonText": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

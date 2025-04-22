@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "service_unavailables",
+  "info": {
+    "singularName": "service-unavailable",
+    "pluralName": "service-unavailables",
+    "displayName": "Service Unavailable"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "buttonText": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

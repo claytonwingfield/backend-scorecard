@@ -530,6 +530,38 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiInternalServerErrorInternalServerError
+  extends Struct.SingleTypeSchema {
+  collectionName: 'internal_server_errors';
+  info: {
+    displayName: 'Internal Server Error';
+    pluralName: 'internal-server-errors';
+    singularName: 'internal-server-error';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::internal-server-error.internal-server-error'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.String;
+  };
+}
+
 export interface ApiLogoLogo extends Struct.SingleTypeSchema {
   collectionName: 'logos';
   info: {
@@ -709,6 +741,38 @@ export interface ApiScorecardScorecard extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiServiceUnavailableServiceUnavailable
+  extends Struct.SingleTypeSchema {
+  collectionName: 'service_unavailables';
+  info: {
+    displayName: 'Service Unavailable';
+    pluralName: 'service-unavailables';
+    singularName: 'service-unavailable';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service-unavailable.service-unavailable'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.String;
   };
 }
 
@@ -1275,11 +1339,13 @@ declare module '@strapi/strapi' {
       'api::department.department': ApiDepartmentDepartment;
       'api::forbidden.forbidden': ApiForbiddenForbidden;
       'api::home-page.home-page': ApiHomePageHomePage;
+      'api::internal-server-error.internal-server-error': ApiInternalServerErrorInternalServerError;
       'api::logo.logo': ApiLogoLogo;
       'api::manager.manager': ApiManagerManager;
       'api::nav.nav': ApiNavNav;
       'api::not-found-page.not-found-page': ApiNotFoundPageNotFoundPage;
       'api::scorecard.scorecard': ApiScorecardScorecard;
+      'api::service-unavailable.service-unavailable': ApiServiceUnavailableServiceUnavailable;
       'api::supervisor.supervisor': ApiSupervisorSupervisor;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
