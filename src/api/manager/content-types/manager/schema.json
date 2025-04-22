@@ -55,6 +55,10 @@
       "relation": "manyToMany",
       "target": "api::manager.manager",
       "mappedBy": "managers"
+    },
+    "managerOfDominican": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

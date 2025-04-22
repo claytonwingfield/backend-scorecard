@@ -586,6 +586,8 @@ export interface ApiManagerManager extends Struct.CollectionTypeSchema {
       'api::manager.manager'
     > &
       Schema.Attribute.Private;
+    managerOfDominican: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     managers: Schema.Attribute.Relation<'manyToMany', 'api::manager.manager'>;
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
