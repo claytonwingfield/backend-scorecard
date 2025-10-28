@@ -1,10 +1,14 @@
+// ./config/server.js
+
 module.exports = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
-  // === THIS IS THE FIX ===
-  // Tells Strapi its public URL (Render provides RENDER_EXTERNAL_URL automatically)
-  url: env('https://backend-scorecard.onrender.com/admin this is my external url', 'http://localhost:1337'), 
-  // =======================
+  
+  // *** THIS IS THE CRUCIAL LINE ***
+  // It tells the Strapi Node.js server its external public address.
+  url: env('https://backend-scorecard.onrender.com/admin', 'http://localhost:1337'), 
+  // RENDER_EXTERNAL_URL is set by Render to: https://backend-scorecard.onrender.com
+
   app: {
     keys: env.array('APP_KEYS'),
   },
