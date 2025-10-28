@@ -15,7 +15,8 @@ module.exports = ({ env }) => ({
     server: {
       allowedHosts: [
         'backend-scorecard.onrender.com',
-        'localhost', // Keep this for your local development
+        'localhost',
+        ['frontend_web'], // Keep this for your local development
       ],
     },
   },
