@@ -369,104 +369,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAgentAgent extends Struct.CollectionTypeSchema {
-  collectionName: 'agents';
-  info: {
-    description: '';
-    displayName: 'agent';
-    pluralName: 'agents';
-    singularName: 'agent';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    departments: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::department.department'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::agent.agent'> &
-      Schema.Attribute.Private;
-    location: Schema.Attribute.Enumeration<
-      ['Oklahoma City', 'Dominican Republic']
-    > &
-      Schema.Attribute.Required;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    publishedAt: Schema.Attribute.DateTime;
-    role: Schema.Attribute.Enumeration<
-      [
-        'Help Desk Technician I',
-        'Help Desk Technician II',
-        'Help Desk Team Lead',
-        'Contact Center Team Lead',
-        'Contact Center Representative',
-        'Contact Center Representative II',
-        'Resolutions Coordinator',
-        'Resolutions Coordinator II',
-        'Resolutions Coordinator III',
-        'Resolutions Team Lead',
-      ]
-    > &
-      Schema.Attribute.Required;
-    scorecards: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::scorecard.scorecard'
-    >;
-    slug: Schema.Attribute.UID<'name'>;
-    supervisor: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::supervisor.supervisor'
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
-  collectionName: 'departments';
-  info: {
-    description: '';
-    displayName: 'department';
-    pluralName: 'departments';
-    singularName: 'department';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    agents: Schema.Attribute.Relation<'manyToMany', 'api::agent.agent'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::department.department'
-    > &
-      Schema.Attribute.Private;
-    managers: Schema.Attribute.Relation<'manyToMany', 'api::manager.manager'>;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'name'>;
-    supervisors: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::supervisor.supervisor'
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiForbiddenForbidden extends Struct.SingleTypeSchema {
   collectionName: 'forbiddens';
   info: {
@@ -593,64 +495,6 @@ export interface ApiLogoLogo extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiManagerManager extends Struct.CollectionTypeSchema {
-  collectionName: 'managers';
-  info: {
-    description: '';
-    displayName: 'manager';
-    pluralName: 'managers';
-    singularName: 'manager';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    departments: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::department.department'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::manager.manager'
-    > &
-      Schema.Attribute.Private;
-    managerOfDominican: Schema.Attribute.Boolean &
-      Schema.Attribute.DefaultTo<false>;
-    managers: Schema.Attribute.Relation<'manyToMany', 'api::manager.manager'>;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    publishedAt: Schema.Attribute.DateTime;
-    role: Schema.Attribute.Enumeration<
-      [
-        'Manager of Contact Center Operations',
-        'Manager of Help Desk',
-        'Sr Manager of Customer Engagement',
-        'Manager of Customer Service',
-        'Manager of Resolutions and Training',
-        'Manager of Contact Center Operation',
-      ]
-    > &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.UID<'name'>;
-    sr_managers: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::manager.manager'
-    >;
-    supervisors: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::supervisor.supervisor'
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiNavNav extends Struct.SingleTypeSchema {
   collectionName: 'navs';
   info: {
@@ -712,32 +556,33 @@ export interface ApiNotFoundPageNotFoundPage extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiScorecardScorecard extends Struct.CollectionTypeSchema {
-  collectionName: 'scorecards';
+export interface ApiQualityQuality extends Struct.CollectionTypeSchema {
+  collectionName: 'qualities';
   info: {
-    displayName: 'scorecard';
-    pluralName: 'scorecards';
-    singularName: 'scorecard';
+    description: '';
+    displayName: 'Quality';
+    pluralName: 'qualities';
+    singularName: 'quality';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    agents: Schema.Attribute.Relation<'manyToMany', 'api::agent.agent'>;
-    aht: Schema.Attribute.Time;
+    agentname: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     date: Schema.Attribute.Date & Schema.Attribute.Required;
+    email: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::scorecard.scorecard'
+      'api::quality.quality'
     > &
       Schema.Attribute.Private;
-    overall: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
-    quality: Schema.Attribute.Decimal;
+    staff: Schema.Attribute.Relation<'manyToOne', 'api::staff.staff'>;
+    totalscore: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -776,50 +621,104 @@ export interface ApiServiceUnavailableServiceUnavailable
   };
 }
 
-export interface ApiSupervisorSupervisor extends Struct.CollectionTypeSchema {
-  collectionName: 'supervisors';
+export interface ApiStaffStaff extends Struct.CollectionTypeSchema {
+  collectionName: 'staffs';
   info: {
     description: '';
-    displayName: 'supervisor';
-    pluralName: 'supervisors';
-    singularName: 'supervisor';
+    displayName: 'Staff';
+    pluralName: 'staffs';
+    singularName: 'staff';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    agents: Schema.Attribute.Relation<'oneToMany', 'api::agent.agent'>;
+    agentname: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    departments: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::department.department'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::supervisor.supervisor'
-    > &
-      Schema.Attribute.Private;
-    location: Schema.Attribute.Enumeration<
-      [' Oklahoma City', ' Dominican Republic']
-    > &
-      Schema.Attribute.Required;
-    managers: Schema.Attribute.Relation<'manyToMany', 'api::manager.manager'>;
-    name: Schema.Attribute.String &
+    department: Schema.Attribute.String;
+    DR: Schema.Attribute.Boolean;
+    email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    isManager: Schema.Attribute.Boolean;
+    isSrManager: Schema.Attribute.Boolean;
+    jobtitle: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::staff.staff'> &
+      Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    role: Schema.Attribute.Enumeration<
-      [
-        ' Supervisor of Help Desk',
-        ' Supervisor of Customer Service',
-        '  Supervisor of Resolutions',
-      ]
-    > &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.UID<'name'>;
+    qualities: Schema.Attribute.Relation<'oneToMany', 'api::quality.quality'>;
+    teamname: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    webexes: Schema.Attribute.Relation<'oneToMany', 'api::webex.webex'>;
+    wfms: Schema.Attribute.Relation<'oneToMany', 'api::wfm.wfm'>;
+  };
+}
+
+export interface ApiWebexWebex extends Struct.CollectionTypeSchema {
+  collectionName: 'webexes';
+  info: {
+    description: '';
+    displayName: 'Webex';
+    pluralName: 'webexes';
+    singularName: 'webex';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    agentname: Schema.Attribute.String;
+    average_inbound_handle_time_seconds: Schema.Attribute.Decimal;
+    average_outbound_handle_time_seconds: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    email: Schema.Attribute.Email;
+    inbound_connected_count: Schema.Attribute.Integer;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::webex.webex'> &
+      Schema.Attribute.Private;
+    outbound_connected_count: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    staff: Schema.Attribute.Relation<'manyToOne', 'api::staff.staff'>;
+    total_inbound_handled_time: Schema.Attribute.String;
+    total_outbound_handled_time: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWfmWfm extends Struct.CollectionTypeSchema {
+  collectionName: 'wfms';
+  info: {
+    description: '';
+    displayName: 'WFM';
+    pluralName: 'wfms';
+    singularName: 'wfm';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    adherence: Schema.Attribute.Integer;
+    agentname: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::wfm.wfm'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    staff: Schema.Attribute.Relation<'manyToOne', 'api::staff.staff'>;
+    teamname: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1335,18 +1234,17 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::agent.agent': ApiAgentAgent;
-      'api::department.department': ApiDepartmentDepartment;
       'api::forbidden.forbidden': ApiForbiddenForbidden;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::internal-server-error.internal-server-error': ApiInternalServerErrorInternalServerError;
       'api::logo.logo': ApiLogoLogo;
-      'api::manager.manager': ApiManagerManager;
       'api::nav.nav': ApiNavNav;
       'api::not-found-page.not-found-page': ApiNotFoundPageNotFoundPage;
-      'api::scorecard.scorecard': ApiScorecardScorecard;
+      'api::quality.quality': ApiQualityQuality;
       'api::service-unavailable.service-unavailable': ApiServiceUnavailableServiceUnavailable;
-      'api::supervisor.supervisor': ApiSupervisorSupervisor;
+      'api::staff.staff': ApiStaffStaff;
+      'api::webex.webex': ApiWebexWebex;
+      'api::wfm.wfm': ApiWfmWfm;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

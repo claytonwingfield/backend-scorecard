@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "staffs",
+  "info": {
+    "singularName": "staff",
+    "pluralName": "staffs",
+    "displayName": "Staff",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "teamname": {
+      "type": "string"
+    },
+    "agentname": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "jobtitle": {
+      "type": "string"
+    },
+    "wfms": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::wfm.wfm",
+      "mappedBy": "staff"
+    },
+    "qualities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::quality.quality",
+      "mappedBy": "staff"
+    },
+    "webexes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::webex.webex",
+      "mappedBy": "staff"
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "DR": {
+      "type": "boolean",
+      "required": false
+    },
+    "isManager": {
+      "type": "boolean"
+    },
+    "isSrManager": {
+      "type": "boolean"
+    }
+  }
+}

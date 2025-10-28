@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wfms",
+  "info": {
+    "singularName": "wfm",
+    "pluralName": "wfms",
+    "displayName": "WFM",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "teamname": {
+      "type": "string"
+    },
+    "adherence": {
+      "type": "integer"
+    },
+    "agentname": {
+      "type": "string",
+      "required": true
+    },
+    "staff": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::staff.staff",
+      "inversedBy": "wfms"
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    }
+  }
+}

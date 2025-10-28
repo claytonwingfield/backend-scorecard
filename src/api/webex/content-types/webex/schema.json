@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "webexes",
+  "info": {
+    "singularName": "webex",
+    "pluralName": "webexes",
+    "displayName": "Webex",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "agentname": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "inbound_connected_count": {
+      "type": "integer"
+    },
+    "outbound_connected_count": {
+      "type": "integer"
+    },
+    "total_inbound_handled_time": {
+      "type": "string"
+    },
+    "total_outbound_handled_time": {
+      "type": "string"
+    },
+    "average_inbound_handle_time_seconds": {
+      "type": "decimal"
+    },
+    "average_outbound_handle_time_seconds": {
+      "type": "decimal"
+    },
+    "staff": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::staff.staff",
+      "inversedBy": "webexes"
+    }
+  }
+}

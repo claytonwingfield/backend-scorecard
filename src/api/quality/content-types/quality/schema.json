@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "qualities",
+  "info": {
+    "singularName": "quality",
+    "pluralName": "qualities",
+    "displayName": "Quality",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "agentname": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "totalscore": {
+      "type": "integer"
+    },
+    "staff": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::staff.staff",
+      "inversedBy": "qualities"
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    }
+  }
+}
