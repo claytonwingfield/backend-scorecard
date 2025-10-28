@@ -10,8 +10,14 @@ module.exports = ({ env }) => ({
       salt: env('TRANSFER_TOKEN_SALT'),
     },
   },
-  flags: {
-    nps: env.bool('FLAG_NPS', true),
-    promoteEE: env.bool('FLAG_PROMOTE_EE', true),
+  // -- ADD THIS BLOCK --
+  vite: {
+    server: {
+      allowedHosts: [
+        'backend-scorecard.onrender.com',
+        'localhost', // Keep this for your local development
+      ],
+    },
   },
+  // -- END OF BLOCK --
 });
