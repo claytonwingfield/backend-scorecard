@@ -1,6 +1,23 @@
 module.exports = [
   'strapi::errors',
-  'strapi::security',
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'connect-src': ["'self'", 'https:'],
+          
+          // *** ADD YOUR RENDER DOMAIN HERE ***
+          'img-src': ["'self'", 'data:', 'blob:', 'https://backend-scorecard.onrender.com'], 
+          'media-src': ["'self'", 'data:', 'blob:', 'https://backend-scorecard.onrender.com'],
+          // **********************************
+          
+          upgradeInsecureRequests: null,
+        },
+      },
+    },
+  },
   {
     name: 'strapi::cors',
     config: {
