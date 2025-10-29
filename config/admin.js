@@ -1,3 +1,5 @@
+// ./config/admin.js
+
 module.exports = ({ env }) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET'),
@@ -10,15 +12,14 @@ module.exports = ({ env }) => ({
       salt: env('TRANSFER_TOKEN_SALT'),
     },
   },
-  // -- ADD THIS BLOCK --
+  
+  // *** THIS IS THE DEFINITIVE FIX ***
   vite: {
     server: {
-      allowedHosts: [
-        'backend-scorecard.onrender.com',
-        'localhost',
-        ['frontend_web'], // Keep this for your local development
-      ],
+      // Setting to 'true' tells the admin panel to trust all hosts, 
+      // which is necessary when running behind a proxy like Render.
+      allowedHosts: true, 
     },
   },
-  // -- END OF BLOCK --
+  // **********************************
 });
