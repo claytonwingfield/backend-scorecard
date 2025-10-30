@@ -12,4 +12,6 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  // NO email config block is needed here
 });
+
