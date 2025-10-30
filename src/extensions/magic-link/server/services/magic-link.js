@@ -23,40 +23,58 @@ module.exports = (plugin) => ({
     const { email } = options;
     console.log(`[Magic Link Override v5] Received request for: ${email}`);
 
-    // --- Start: Logic replicated from the original plugin ---
+    // --- Start: Custom Logic (Check Staff Table) ---
+    // First, check if this email exists in your custom 'Staff' table
+    const staffMember = await strapi.db.query("api::staff.staff").findOne({
+      where: { email },
+    });
 
-    // V5 uses `strapi.db.query`, not `strapi.query`
+    // If they are not in the staff table, do not proceed.
+    if (!staffMember) {
+      console.warn(`[Magic Link Override v5] Email ${email} not found in Staff table. Aborting.`);
+      // We return 'true' to the frontend so it doesn't know the user doesn't exist.
+      // This prevents "user enumeration" attacks.
+      return true;
+    }
+    
+    console.log(`[Magic Link Override v5] Found matching staff member: ${staffMember.agentname || email}`);
+    // --- End: Custom Logic (Check Staff Table) ---
+
+
+    // --- Start: Logic replicated from the original plugin ---
+    // Now that we've confirmed they are staff, find their *login account*
+    // in the 'users-permissions' table.
     const user = await strapi.db.query("plugin::users-permissions.user").findOne({
       where: { email },
     });
 
-    // If the user doesn't exist, just return
+    // If the user doesn't have a login account, just return
     if (!user) {
-      console.log('[Magic Link Override v5] User not found.');
-      return;
+      console.warn(`[Magic Link Override v5] Staff member ${email} exists, but has no corresponding login account. Aborting.`);
+      return true; // Again, return true for security.
     }
 
     // Call the *original* 'createMagicLink' function from the plugin's service.
-    // In v5, the original service is passed as `plugin.service`.
+    // This function requires the 'user' object (from users-permissions).
     const magicLink = await plugin.service.createMagicLink(user);
     // --- End: Logic replicated from the original plugin ---
 
-    console.log(`[Magic Link Override v5] Generated link for ${email}.`);
+    console.log(`[Magic Link Override v5] Generated magic link for ${email}.`);
 
     // --- Start: Custom Logic (Power Automate) ---
-    // Get the webhook URL from your .env file
-    const powerAutomateUrl = process.env.POWER_AUTOMATE_MAGIC_LINK_URL;
+    const powerAutomateUrl = process.env.POWER_ATE_MAGIC_LINK_URL; // NOTE: Renamed env variable
 
     if (!powerAutomateUrl) {
-      console.error('[Magic Link Override v5] POWER_AUTOMATE_MAGIC_LINK_URL is not set in .env');
+      console.error('[Magic Link Override v5] POWER_ATE_MAGIC_LINK_URL is not set in .env');
       throw new Error('Power Automate Webhook URL is not configured.');
     }
 
-    // This is the data you will send to Power Automate.
     const payload = {
       recipientEmail: email,
       magicLinkUrl: magicLink,
       username: user.username,
+      agentName: staffMember.agentname, // You can now send staff data!
+      department: staffMember.department, // And this
     };
 
     try {
@@ -67,14 +85,13 @@ module.exports = (plugin) => ({
       
       console.log('[Magic Link Override v5] Successfully triggered Power Automate flow.');
       
-      // The original function returns true on success
       return true;
 
     } catch (error) {
       console.error('[Magic Link Override v5] Error triggering Power Automate flow:', error.message);
-      // Throw an error so the front-end knows something went wrong
       throw new Error('Failed to trigger Power Automate flow.');
     }
     // --- End: Custom Logic (Power Automate) ---
   },
 });
+
