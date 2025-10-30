@@ -1,54 +1,77 @@
-"use strict";
+'use strict';
+/* global strapi */
+
+// Import axios to make HTTP requests
+const axios = require('axios');
 
 module.exports = (plugin) => {
-  // Get the original controller
-  // Note: We are guessing the controller is named 'auth'.
-  // See the "Important Note" below if this doesn't work.
-  const originalController = plugin.controllers.auth;
+  // Get the original service
+  const originalService = plugin.service('magic-link');
 
-  // Override the 'sendLink' action
-  plugin.controllers.auth = {
-    ...originalController, // Keep all other original actions
+  /**
+   * Override the 'sendMagicLink' function
+   * This function is originally responsible for creating the link AND emailing it.
+   * We are replacing it to create the link and send it to Power Automate instead.
+   */
+  plugin.service('magic-link').sendMagicLink = async (options) => {
+    const { email } = options;
+    console.log(`[Magic Link Override] Received request for: ${email}`);
 
-    async sendLink(ctx) {
-      // 1. Get email from the request body
-      const { email } = ctx.request.body;
+    // --- Start: Logic replicated from the original plugin ---
+    // We need to find the user to generate a link for them.
+    // This line will no longer show an error, as 'strapi' is declared as a global for the linter.
+    const user = await strapi.query("plugin::users-permissions.user").findOne({
+      where: { email },
+    });
+    // If the user doesn't exist, just return (same as original plugin)
+    if (!user) {
+      console.log('[Magic Link Override] User not found.');
+      return;
+    }
 
-      if (!email) {
-        return ctx.badRequest("Email is required.");
-      }
+    // Use the *original* 'createMagicLink' function from the plugin's service.
+    // This correctly generates the token and the full URL.
+    const magicLink = await originalService.createMagicLink(user);
+    // --- End: Logic replicated from the original plugin ---
 
-      const lowercaseEmail = email.toLowerCase();
+    console.log(`[Magic Link Override] Generated link for ${email}.`);
 
-      try {
-        // 2. Check if email exists in the 'staff' content type
-        const staffMember = await strapi.db.query("api::staff.staff").findOne({
-          where: { email: lowercaseEmail },
-        });
+    // --- Start: Custom Logic (Power Automate) ---
+    // Get the webhook URL from your .env file
+    const powerAutomateUrl = process.env.POWER_AUTOMATE_MAGIC_LINK_URL;
 
-        // 3. If staff member does NOT exist, do not proceed.
-        // We send a generic 200 OK response. This is a security best practice
-        // to prevent attackers from "fishing" for valid staff emails.
-        if (!staffMember) {
-          strapi.log.warn(`Magic-link: Blocked login attempt for non-staff email: ${email}`);
-          return ctx.send({
-            ok: true,
-            message: "If your email is registered with us, you will receive a login link."
-          });
-        }
+    if (!powerAutomateUrl) {
+      console.error('[Magic Link Override] POWER_AUTOMATE_MAGIC_LINK_URL is not set in .env');
+      throw new Error('Power Automate Webhook URL is not configured.');
+    }
 
-        // 4. If staff member EXISTS, log it and call the original plugin action
-        strapi.log.info(`Magic-link: Sending link to staff member: ${email}`);
-        
-        // Use 'call' to maintain the correct 'this' context for the original controller
-        return await originalController.sendLink.call(this, ctx);
+    // This is the data you will send to Power Automate.
+    // Your flow should be set up to expect 'recipientEmail' and 'magicLinkUrl'.
+    const payload = {
+      recipientEmail: email,
+      magicLinkUrl: magicLink,
+      username: user.username, // You can send any other user data you need
+    };
 
-      } catch (err) {
-        strapi.log.error("Error in custom magic-link sendLink override:", err);
-        return ctx.internalServerError("An error occurred while trying to send the login link.");
-      }
-    },
+    try {
+      console.log('[Magic Link Override] Sending payload to Power Automate...');
+      
+      // Make the POST request
+      await axios.post(powerAutomateUrl, payload);
+      
+      console.log('[Magic Link Override] Successfully triggered Power Automate flow.');
+      
+      // The original function returns true on success
+      return true;
+
+    } catch (error) {
+      console.error('[Magic Link Override] Error triggering Power Automate flow:', error.message);
+      // Throw an error so the front-end knows something went wrong
+      throw new Error('Failed to trigger Power Automate flow.');
+    }
+    // --- End: Custom Logic (Power Automate) ---
   };
 
+  // Return the modified plugin
   return plugin;
 };
