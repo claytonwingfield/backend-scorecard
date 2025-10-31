@@ -14,81 +14,74 @@ module.exports = {
    * your application is initialized.
    */
   register({ strapi }) {
-    // We are programmatically extending the email service
-    const originalEmailService = strapi.service('plugin::email.email');
+    // This is the official Strapi v5 way to extend a plugin's service
+    strapi.extend('plugin::email.email', (originalService) => {
+      
+      console.log('[Strapi Register] Extending plugin::email.email service...');
 
-    // Create the new, overridden service
-    const customEmailService = {
-      // First, spread all original service functions
-      ...originalEmailService,
+      // Return the new, overridden service object
+      return {
+        // First, spread all original service functions
+        ...originalService,
 
-      // Then, override the 'send' function
-      async send(options) {
-        const { to, subject, html } = options;
+        // Then, override the 'send' function
+        async send(options) {
+          const { to, subject, html } = options;
 
-        // I added "V6-INDEX" to the log so we know this new script is running
-        console.log(`[Email Override V6-INDEX] Intercepted email to: ${to} | Subject: ${subject}`);
+          // I added "V7-EXTEND" to the log so we know this new script is running
+          console.log(`[Email Override V7-EXTEND] Intercepted email to: ${to} | Subject: ${subject}`);
 
-        // --- Start: Custom Staff Check ---
-        const staffMember = await strapi.db.query("api::staff.staff").findOne({
-          where: { email: to },
-        });
+          // --- Start: Custom Staff Check ---
+          const staffMember = await strapi.db.query("api::staff.staff").findOne({
+            where: { email: to },
+          });
 
-        if (!staffMember) {
-          console.warn(`[Email Override V6-INDEX] Email ${to} not found in Staff table. Aborting.`);
-          return true;
-        }
-
-        console.log(`[Email Override V6-INDEX] Email ${to} confirmed as Staff member. Proceeding...`);
-        // --- End: Custom Staff Check ---
-
-        // Check if this is the magic link email
-        if (subject === MAGIC_LINK_SUBJECT) {
-          console.log(`[Email Override V6-INDEX] Magic Link email detected! Sending to Power Automate.`);
-
-          const powerAutomateUrl = process.env.POWER_AUTOMATE_MAGIC_LINK_URL;
-
-          if (!powerAutomateUrl) {
-            console.error('[Email Override V6-INDEX] POWER_AUTOMATE_MAGIC_LINK_URL is not set in .env.');
-            throw new Error('Power Automate Webhook URL is not configured.');
-          }
-
-          const payload = {
-            recipientEmail: to,
-            emailSubject: subject,
-            emailBody: html,
-            agentName: staffMember.agentname,
-            department: staffMember.department,
-          };
-
-          try {
-            console.log('[Email Override V6-INDEX] Sending payload to Power Automate...');
-            await axios.post(powerAutomateUrl, payload);
-            console.log('[Email Override V6-INDEX] Successfully triggered Power Automate flow.');
+          if (!staffMember) {
+            console.warn(`[Email Override V7-EXTEND] Email ${to} not found in Staff table. Aborting.`);
             return true;
-          } catch (error) {
-            console.error('[Email Override V6-INDEX] Error triggering Power Automate flow:', error.message);
-            throw new Error('Failed to trigger Power Automate flow.');
           }
-        }
 
-        // --- This is the crucial part ---
-        // If it's not a magic link, pass it to the *original email provider*
-        console.log(`[Email Override V6-INDEX] Other email detected. Passing to original provider.`);
-        try {
-          const provider = strapi.plugin('email').provider;
-          await provider.send(options);
-        } catch (error) {
-          console.error('[Email Override V6-INDEX] Error sending via original provider:', error.message);
-        }
+          console.log(`[Email Override V7-EXTEND] Email ${to} confirmed as Staff member. Proceeding...`);
+          // --- End: Custom Staff Check ---
 
-        return true;
-      },
-    };
+          // Check if this is the magic link email
+          if (subject === MAGIC_LINK_SUBJECT) {
+            console.log(`[Email Override V7-EXTEND] Magic Link email detected! Sending to Power Automate.`);
 
-    // Finally, replace the core email service with our custom one
-    strapi.container.set('plugin::email.email', customEmailService);
-    console.log('[Strapi Register] Custom email service has been injected.');
+            const powerAutomateUrl = process.env.POWER_AUTOMATE_MAGIC_LINK_URL;
+
+            if (!powerAutomateUrl) {
+              console.error('[Email Override V7-EXTEND] POWER_AUTOMATE_MAGIC_LINK_URL is not set in .env.');
+              throw new Error('Power Automate Webhook URL is not configured.');
+            }
+
+            const payload = {
+              recipientEmail: to,
+              emailSubject: subject,
+              emailBody: html,
+              agentName: staffMember.agentname,
+              department: staffMember.department,
+            };
+
+            try {
+              console.log('[Email Override V7-EXTEND] Sending payload to Power Automate...');
+              await axios.post(powerAutomateUrl, payload);
+              console.log('[Email Override V7-EXTEND] Successfully triggered Power Automate flow.');
+              return true;
+            } catch (error) {
+              console.error('[Email Override V7-EXTEND] Error triggering Power Automate flow:', error.message);
+              throw new Error('Failed to trigger Power Automate flow.');
+            }
+          }
+
+          // --- This is the crucial part ---
+          // If it's not a magic link, call the *original* send function
+          // that we received in the 'originalService' parameter.
+          console.log(`[Email Override V7-EXTEND] Other email detected. Passing to original service.send().`);
+          return originalService.send(options);
+        },
+      };
+    });
   },
 
   /**
