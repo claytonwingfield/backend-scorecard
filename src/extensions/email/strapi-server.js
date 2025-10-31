@@ -33,7 +33,11 @@ module.exports = (plugin) => {
 
         // --- Start: Custom Staff Check ---
         const staffMember = await strapi.db.query("api::staff.staff").findOne({
-          where: { email: to },
+          where: {
+            email: {
+              $eqi: to 
+            }
+          },
         });
 
         if (!staffMember) {
