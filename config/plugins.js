@@ -22,7 +22,7 @@ module.exports = ({ env }) => ({
         // actually tries to connect to an SMTP server.
         host: 'smtp.gmail.com',
         port: 465,
-        secure: false,
+        
         auth: {
           user: 'svghda@gmail.com',
           pass: 'bocq nrrq bmpr gnch',
