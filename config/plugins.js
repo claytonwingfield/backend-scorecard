@@ -12,6 +12,26 @@ module.exports = ({ env }) => ({
       },
     },
   },
-  // NO email config block is needed here
+  email: {
+    config: {
+      // Use nodemailer since it's in your package.json
+      provider: 'nodemailer', 
+      providerOptions: {
+        // We can use dummy values here, as our override
+        // will intercept the 'send' call before it
+        // actually tries to connect to an SMTP server.
+        host: 'smtp.example.com',
+        port: 587,
+        auth: {
+          user: 'username',
+          pass: 'password',
+        },
+      },
+      settings: {
+        defaultFrom: 'noreply@example.com',
+        defaultReplyTo: 'noreply@example.com',
+      },
+    },
+  },
+  // ... any other plugin configs
 });
-
