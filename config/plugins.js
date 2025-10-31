@@ -20,16 +20,16 @@ module.exports = ({ env }) => ({
         // We can use dummy values here, as our override
         // will intercept the 'send' call before it
         // actually tries to connect to an SMTP server.
-        host: 'smtp.example.com',
-        port: 587,
+        host: 'smtp.gmail.com',
+        port: 465,
         auth: {
-          user: 'username',
-          pass: 'password',
+          user: 'svghda@gmail.com',
+          pass: 'bocq nrrq bmpr gnch',
         },
       },
       settings: {
-        defaultFrom: 'noreply@example.com',
-        defaultReplyTo: 'noreply@example.com',
+        defaultFrom: 'svghda@gmail.com',
+        defaultReplyTo: 'svghda@gmail.com',
       },
     },
   },
