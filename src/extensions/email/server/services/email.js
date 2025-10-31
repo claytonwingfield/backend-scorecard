@@ -48,10 +48,10 @@ module.exports = (plugin) => ({
       console.log(`[Email Override] Magic Link email detected! Sending to Power Automate instead.`);
 
       // --- Start: Custom Logic (Power Automate) ---
-      const powerAutomateUrl = process.env.POWER_ATE_MAGIC_LINK_URL;
+      const powerAutomateUrl = process.env.POWER_AUTOMATE_MAGIC_LINK_URL;
 
       if (!powerAutomateUrl) {
-        console.error('[Email Override] POWER_ATE_MAGIC_LINK_URL is not set in .env');
+        console.error('[Email Override] POWER_AUTOMATE_MAGIC_LINK_URL is not set in .env. Please check your Render environment variables.');
         throw new Error('Power Automate Webhook URL is not configured.');
       }
       
