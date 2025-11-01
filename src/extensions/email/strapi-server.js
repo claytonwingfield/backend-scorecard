@@ -4,7 +4,7 @@ const axios = require('axios');
 // =================================================================
 // IMPORTANT: CHECK THIS VALUE
 // =================================================================
-const MAGIC_LINK_SUBJECT = "Your Magic Link Login";
+const MAGIC_LINK_SUBJECT = "Your Login Link";
 // =================================================================
 
 module.exports = (plugin) => {
