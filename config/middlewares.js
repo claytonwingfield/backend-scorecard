@@ -7,7 +7,9 @@ module.exports = [
         useDefaults: true,
         directives: {
           'connect-src': ["'self'", 'https:'],
-          
+          "script-src": ["'self'", "'unsafe-inline'", "editor.unlayer.com"],
+          "frame-src": ["'self'", "editor.unlayer.com"],
+        
           // *** ADD YOUR RENDER DOMAIN HERE ***
           'img-src': ["'self'", 'data:', 'blob:', 'https://backend-scorecard.onrender.com'], 
           'media-src': ["'self'", 'data:', 'blob:', 'https://backend-scorecard.onrender.com'],

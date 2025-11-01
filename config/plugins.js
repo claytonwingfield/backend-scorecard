@@ -34,5 +34,8 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  'email-designer': {
+    enabled: true,
+  },
   // ... any other plugin configs
 });
